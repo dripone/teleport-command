@@ -1,3 +1,4 @@
+#include "Chat.h"
 #include "ScriptMgr.h"
 #include "Player.h"
 #include "Configuration/Config.h"
