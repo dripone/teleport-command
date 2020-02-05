@@ -17,8 +17,8 @@ public:
         static std::vector<ChatCommand> TeleportTable =
         {
 
-            { "home", SEC_PLAYER, false, &HandleHomeTeleportCommand, "" },
-            { "arena", SEC_PLAYER, false, &HandleArenaTeleportCommand, ""}
+            { ".telehome", SEC_PLAYER, false, &HandleHomeTeleportCommand, "" },
+            { ".telearena", SEC_PLAYER, false, &HandleArenaTeleportCommand, ""}
 
         };
         return TeleportTable;
