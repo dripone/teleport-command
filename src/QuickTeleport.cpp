@@ -24,7 +24,7 @@ public:
         return TeleportTable;
     }
 
-    static bool HandleHomeTeleportCommand(ChatHandler* handler, char const* args)
+    static bool HandleHomeTeleportCommand(ChatHandler* handler, char const* /* args */) // unusued param args
     {
         Player* me = handler->GetSession()->GetPlayer();
         std::string home = sConfigMgr->GetStringDefault("QuickTeleport.homeLocation", "");
@@ -58,7 +58,7 @@ public:
         return true;
     }
 
-    static bool HandleArenaTeleportCommand(ChatHandler* handler, char const* args)
+    static bool HandleArenaTeleportCommand(ChatHandler* handler, char const* /* args */) // unusued parameter args
     {
         bool enabled = sConfigMgr->GetBoolDefault("QuickTeleport.enabled", false);
         std::string arena = sConfigMgr->GetStringDefault("QuickTeleport.arenaLocation", "");
