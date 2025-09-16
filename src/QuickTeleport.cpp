@@ -20,7 +20,8 @@ public:
         static ChatCommandTable TeleportTable =
         {
             { "home", HandleHomeTeleportCommand,   SEC_PLAYER,     Console::No },
-            { "arena", HandleArenaTeleportCommand,   SEC_PLAYER,  Console::No }
+            { "arena", HandleArenaTeleportCommand,   SEC_PLAYER,  Console::No },
+            { "moltencore", HandleMoltenCoreTeleportCommand,   SEC_PLAYER,  Console::No }
         };
 
         static ChatCommandTable commandTable =
@@ -99,6 +100,39 @@ public:
         return true;
     }
 
+    static bool HandleMoltenCoreTeleportCommand(ChatHandler* handler, char const* /* args */) // unusued parameter args
+    {
+        bool enabled = sConfigMgr->GetOption<bool>("QuickTeleport.enabled", false);
+        std::string moltencore = sConfigMgr->GetOption<std::string>("QuickTeleport.moltencoreLocation", "");
+
+        QueryResult result = WorldDatabase.Query("SELECT `map`, `position_x`, `position_y`, `position_z`, `orientation` FROM game_tele WHERE name = '{}'", moltencore.c_str());
+        Player* p = handler->GetSession()->GetPlayer();
+
+        if (!enabled)
+            return false;
+
+        if (!p)
+            return false;
+
+        if (p->IsInCombat())
+            return false;
+
+        if (!result)
+            return false;
+
+        do
+        {
+            Field* fields = result->Fetch();
+            uint32 map = fields[0].Get<uint32>();
+            float position_x = fields[1].Get<float>();
+            float position_y = fields[2].Get<float>();
+            float position_z = fields[3].Get<float>();
+            float orientation = fields[4].Get<float>();
+
+            p->TeleportTo(map, position_x, position_y, position_z, orientation);
+        } while (result->NextRow());
+        return true;
+    }
 };
 
 void AddQuickTeleportScripts() {
